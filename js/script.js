@@ -42,3 +42,13 @@ async function cadastrarPedido(e) {
     await fetch('api/pedidos.php', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(obj)});
     alert('Pedido cadastrado!'); window.location.href = 'listagem-pedidos.html';
 }
+
+async function listarProdutos() {
+    const res = await fetch('api/produtos.php');
+    const produtos = await res.json();
+    const tbody = document.getElementById('tabela');
+    if (!tbody) return;
+    tbody.innerHTML = produtos.map(p => `
+        <tr><td>${p.nome}</td><td>R$ ${parseFloat(p.preco).toFixed(2)}</td><td>${p.estoque}</td></tr>
+    `).join('');
+}
